@@ -1,4 +1,6 @@
+import java.awt.*;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class RaceTrack {
@@ -7,13 +9,22 @@ public class RaceTrack {
 
         Scanner input = new Scanner(System.in);
 
-        int n = getnum(input);
+        int n= 10;
+        while(n < 1  || n > 4)
+        {
+            n = getnum(input);
+        }
 
-        int speed;
 
         int str = 10;
 
         StdDraw.setScale(-(str+1),(str+1));
+
+        StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
+
+        StdDraw.filledSquare(0,0,str);
+        StdDraw.setPenColor();
+
 
         StdDraw.setPenRadius(0.005);
 
@@ -40,6 +51,31 @@ public class RaceTrack {
 
         StdDraw.setPenRadius(0.015);
 
+
+
+         // vi fucker rundt rundt med arrays istedet, vi tænker max 4 spillere.
+        Player[] players = new Player[n];
+
+        for (int i = 0; n > i ; i++)
+        {
+            players[i] = new Player();
+            players[i].setCord(0,6+i);
+            players[i].farve = new Color(50+ThreadLocalRandom.current().nextInt(206),50+ThreadLocalRandom.current().nextInt(206),50+ThreadLocalRandom.current().nextInt(206));
+
+        }
+
+
+
+        for (Player player : players)
+        {
+            StdDraw.setPenColor(player.farve);
+            StdDraw.point(player.x,player.y);
+
+        }
+
+
+
+        /*
         switch (n) {
 
             case 1:
@@ -60,7 +96,7 @@ public class RaceTrack {
                 Player player2 = new Player();
                 Player player3 = new Player();
 
-        }
+        }*/
 
 
     }

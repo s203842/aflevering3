@@ -1,6 +1,9 @@
+import java.awt.*;
+
 public class Player {
 
     int x; int y; int dx = 0; int dy = 0; int nx; int ny;
+    Color farve;
 
     public void setVec(int p) {
 

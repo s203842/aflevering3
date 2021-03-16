@@ -14,18 +14,13 @@ public class RaceTrack {
 
         boolean vundet;
 
+        boolean guideon=false;
+
         int vindeSpiller = 0;
         boolean gamewon=false;
 
         Scanner input = new Scanner(System.in);
-
         drawmap();
-
-
-
-
-
-
 
         // get number of players, n
         int n= 10;
@@ -49,6 +44,8 @@ public class RaceTrack {
             players[i].coordhis.add(new int[]{players[i].x,players[i].y});
         }
 
+        System.out.print("Do you want a guide (y/n): ");
+        if ("y".equals(input.nextLine())) guideon = true;
 
         //vi prøver at bevæge
         while(anyalive(players) && !gamewon)
@@ -64,7 +61,7 @@ public class RaceTrack {
                     player.coordhis.add(new int[]{player.x,player.y});
 
                     System.out.println("Det er spiller " + player.playernumber + "'s tur");
-                    drawguide(player);
+                    if(guideon) drawguide(player);
 
                     turn(player, input);
 

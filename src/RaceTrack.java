@@ -67,6 +67,8 @@ public class RaceTrack {
 
                     if (vundet) {
 
+                        vindeSpiller = player.playernumber;
+
                         System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet!");
 
                         break; }

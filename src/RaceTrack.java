@@ -47,7 +47,7 @@ public class RaceTrack {
 
         // get number of players, n
         int n= 10;
-        while(n < 1  || n > 4)
+        while(n < 1  || n > 4) // limit players to 1-4
         {
             n = getnum(input);
         }

@@ -15,6 +15,7 @@ public class RaceTrack {
         boolean vundet;
 
         int vindeSpiller = 0;
+        boolean gamewon=false;
 
         Scanner input = new Scanner(System.in);
 
@@ -50,14 +51,14 @@ public class RaceTrack {
 
 
         //vi prøver at bevæge
-        while(anyalive(players))
+        while(anyalive(players) && !gamewon)
         {
 
             for (Player player : players)
             {
                 drawmap();
                 drawplayers(players);
-                if (!player.dead && !playerWon(player))
+                if (!player.dead)
                 {
 
                     player.coordhis.add(new int[]{player.x,player.y});
@@ -69,15 +70,15 @@ public class RaceTrack {
 
                     player.coordhis.add(new int[]{player.x,player.y});
 
-                    vundet = playerWon(player);
+                    gamewon = playerWon(player);
 
-                    if (vundet) {
+                    if (gamewon)
+                    {
 
                         vindeSpiller = player.playernumber;
 
                         System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet!");
-
-                        break; }
+                     break;}
 
                     player.dead = crash(player);
 
@@ -88,6 +89,8 @@ public class RaceTrack {
             }
 
         }
+        drawmap();
+        drawplayers(players);
         System.out.println("program færdig");
 
 
@@ -181,8 +184,7 @@ public class RaceTrack {
     public static void drawmap()
     {
         //clear map
-        StdDraw.setPenColor(Color.WHITE);
-        StdDraw.filledSquare(0,0,str+1);
+        StdDraw.clear();
 
 
         // draw grey part of map
@@ -272,13 +274,27 @@ public class RaceTrack {
         //draw 5
         StdDraw.setPenRadius(0.01);
         StdDraw.point(x0,y0);
+
         //draw other 8
         StdDraw.setPenRadius(0.003);
+
         //from player to guide
         StdDraw.line(player.x,player.y,x0,y0);
 
 
         //directions
+
+        for (int i = -1; i <2 ; i++)
+        {
+            for (int j = -1; j <2 ; j++)
+            {
+                StdDraw.line(x0,y0,x0+i,y0+j);
+
+            }
+
+        }
+
+        /*
         StdDraw.line(x0,y0,x0,y0-1);
         StdDraw.line(x0,y0,x0,y0+1);
         StdDraw.line(x0,y0,x0-1,y0-1);
@@ -287,11 +303,7 @@ public class RaceTrack {
         StdDraw.line(x0,y0,x0+1,y0-1);
         StdDraw.line(x0,y0,x0+1,y0);
         StdDraw.line(x0,y0,x0+1,y0+1);
-
-
-
-
-
+        */
     }
 
 

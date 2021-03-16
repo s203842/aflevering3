@@ -9,13 +9,6 @@ public class RaceTrack {
 
         Scanner input = new Scanner(System.in);
 
-        int n= 10;
-        while(n < 1  || n > 4)
-        {
-            n = getnum(input);
-        }
-
-
         int str = 10;
 
         StdDraw.setScale(-(str+1),(str+1));
@@ -52,6 +45,12 @@ public class RaceTrack {
         StdDraw.setPenRadius(0.015);
 
 
+        // get number of players, n
+        int n= 10;
+        while(n < 1  || n > 4)
+        {
+            n = getnum(input);
+        }
 
          // vi fucker rundt rundt med arrays istedet, vi tænker max 4 spillere.
         Player[] players = new Player[n];

@@ -2,8 +2,9 @@ import java.awt.*;
 
 public class Player {
 
-    int x; int y; int dx = 0; int dy = 0; int nx; int ny;
-    Color farve;
+    int x, y, dx = 0, dy = 0, nx, ny, playernumber;
+    Color farve = Color.BLACK;
+    boolean dead = false;
 
     public void setVec(int p) {
 

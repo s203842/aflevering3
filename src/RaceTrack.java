@@ -5,19 +5,149 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RaceTrack {
 
+
+    public static int str=10;
+
     public static void main(String[] args) {
 
         Scanner input = new Scanner(System.in);
 
-        int str = 10;
+        drawmap();
 
+
+
+
+
+
+
+        // get number of players, n
+        int n= 10;
+        while(n < 1  || n > 4) // limit players to 1-4
+        {
+            n = getnum(input);
+        }
+
+         // vi fucker rundt rundt med arrays istedet, vi tænker max 4 spillere.
+        Player[] players = new Player[n];
+
+        for (int i = 0; n > i ; i++)
+        {
+            players[i] = new Player();
+            players[i].playernumber=1+i;
+            players[i].setCord(0,6+i);
+            players[i].farve = new Color(50+ThreadLocalRandom.current().nextInt(206),50+ThreadLocalRandom.current().nextInt(206),50+ThreadLocalRandom.current().nextInt(206));
+
+        }
+
+        //draw each player
+        for (Player player : players)
+        {
+            StdDraw.setPenColor(player.farve);
+            StdDraw.point(player.x,player.y);
+
+        }
+
+
+        //vi prøver at bevæge
+        while(anyalive(players))
+        {
+
+            for (Player player : players)
+            {
+                if (!player.dead)
+                {
+                    System.out.println("Det er spiller " + player.playernumber + "'s tur");
+                    turn(player, input);
+
+                    player.dead = crash(player);
+                }
+
+
+            }
+
+        }
+        System.out.println("program færdig");
+
+
+
+    }
+
+
+    public static int getnum(Scanner console)
+    {
+        System.out.print("Giz æ tal over 0: ");
+        while (!console.hasNextInt())
+        {
+            console.nextLine();
+            System.out.println("a sa æ tal");
+            System.out.print("Giz æ ny tal: ");
+        }
+        return console.nextInt();
+    }
+
+    public static int getdir(Scanner console)
+    {
+        System.out.print("Hvilken retning (Brug numpad): ");
+        int n;
+        while (true)
+        {
+            n=getnum(console);
+            if(0 < n && 10 > n) return n;
+            System.out.print("En retning er et tal mellem 1 og 9 (inklusiv), proev igen: ");
+        }
+    }
+
+    public static void turn(Player player, Scanner console)
+    {
+        System.out.println("kører tur for spiller: " + player.playernumber);
+
+            StdDraw.setPenColor(player.farve);
+            player.setVec(getdir(console));
+            StdDraw.setPenRadius(0.005);
+            player.setPos();
+            StdDraw.setPenRadius(0.015);
+            StdDraw.point(player.x,player.y);
+    }
+
+    public static boolean crash(Player player)
+    {
+        System.out.println("kører crash");
+
+        //if inner square
+        if((player.y >= -(str/2) && player.y <= (str/2)  ) &&  (player.x >= -(str/2) && player.x <= (str/2)  )) return true;
+
+        //if outer square
+        else if((player.y <= -str || player.y >= str ) || (player.x <= -str || player.x >= str)) return true;
+
+        else return false;
+    }
+
+
+    public static boolean anyalive(Player[] players)
+    {
+        for (Player player: players)
+        {
+            if(!player.dead) return true;
+
+        }
+
+        return false;
+
+    }
+
+
+
+    //draw stuff
+
+    public static void drawmap()
+    {
         StdDraw.setScale(-(str+1),(str+1));
 
         StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
 
         StdDraw.filledSquare(0,0,str);
-        StdDraw.setPenColor();
 
+        StdDraw.setPenColor();
 
         StdDraw.setPenRadius(0.005);
 
@@ -43,75 +173,8 @@ public class RaceTrack {
         StdDraw.square(0,0,str/2.0);
 
         StdDraw.setPenRadius(0.015);
-
-
-        // get number of players, n
-        int n= 10;
-        while(n < 1  || n > 4) // limit players to 1-4
-        {
-            n = getnum(input);
-        }
-
-         // vi fucker rundt rundt med arrays istedet, vi tænker max 4 spillere.
-        Player[] players = new Player[n];
-
-        for (int i = 0; n > i ; i++)
-        {
-            players[i] = new Player();
-            players[i].setCord(0,6+i);
-            players[i].farve = new Color(50+ThreadLocalRandom.current().nextInt(206),50+ThreadLocalRandom.current().nextInt(206),50+ThreadLocalRandom.current().nextInt(206));
-
-        }
-
-
-
-        for (Player player : players)
-        {
-            StdDraw.setPenColor(player.farve);
-            StdDraw.point(player.x,player.y);
-
-        }
-
-
-
-        /*
-        switch (n) {
-
-            case 1:
-                Player player1 = new Player();
-
-                break;
-
-            case 2:
-
-                Player player1 = new Player();
-                Player player2 = new Player();
-
-                break;
-
-            case 3:
-
-                Player player1 = new Player();
-                Player player2 = new Player();
-                Player player3 = new Player();
-
-        }*/
-
-
     }
 
-
-    public static int getnum(Scanner console)
-    {
-        System.out.print("Giz æ tal over 0: ");
-        while (!console.hasNextInt())
-        {
-            console.nextLine();
-            System.out.println("a sa æ tal");
-            System.out.print("Giz æ ny tal: ");
-        }
-        return console.nextInt();
-    }
 
 
 }

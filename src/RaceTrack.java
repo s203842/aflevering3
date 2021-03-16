@@ -40,15 +40,8 @@ public class RaceTrack {
             players[i].playernumber=1+i;
             players[i].setCord(0,6+i);
             players[i].farve = new Color(50+ThreadLocalRandom.current().nextInt(206),50+ThreadLocalRandom.current().nextInt(206),50+ThreadLocalRandom.current().nextInt(206));
-
-        }
-
-        //draw each player
-        for (Player player : players)
-        {
-            StdDraw.setPenColor(player.farve);
-            StdDraw.point(player.x,player.y);
-
+            players[i].coordhis.add(new int[]{players[i].x,players[i].y});
+            players[i].coordhis.add(new int[]{players[i].x,players[i].y});
         }
 
 
@@ -58,10 +51,17 @@ public class RaceTrack {
 
             for (Player player : players)
             {
+                drawmap();
+                drawplayers(players);
                 if (!player.dead && !playerWon(player))
                 {
+
+                    player.coordhis.add(new int[]{player.x,player.y});
+
                     System.out.println("Det er spiller " + player.playernumber + "'s tur");
                     turn(player, input);
+
+                    player.coordhis.add(new int[]{player.x,player.y});
 
                     vundet = playerWon(player);
 
@@ -154,6 +154,22 @@ public class RaceTrack {
 
     }
 
+    public static boolean playerWon(Player spiller)
+    {
+
+        if (spiller.giveCord()[0] >= 0 && spiller.dx > 0 && spiller.turnnumber > 10  ) {
+
+            return true;
+
+        }
+
+        else {
+            return false;
+
+        }
+
+    }
+
 
 
     //draw stuff
@@ -210,20 +226,38 @@ public class RaceTrack {
 
     }
 
-    public static boolean playerWon(Player spiller) {
+    public static void drawplayers(Player[] players)
+    {
+        int x0,x1,y0,y1;
+        for (Player player: players)
+        {
+            StdDraw.setPenColor(player.farve);
 
-        if (spiller.giveCord()[0] >= 0 && spiller.dx > 0 && spiller.turnnumber > 10  ) {
 
-            return true;
 
-        }
+            for (int i = 0; i < player.coordhis.size() ; i+=2)
+            {
+                x0=player.coordhis.get(i)[0];
+                x1=player.coordhis.get(i+1)[0];
+                y0=player.coordhis.get(i)[1];
+                y1=player.coordhis.get(i+1)[1];
+                StdDraw.setPenRadius(0.015);
+                StdDraw.point(x0,y0);
 
-        else {
-            return false;
+                StdDraw.setPenRadius(0.005);
+                StdDraw.line(x0,y0,x1,y1);
+
+                StdDraw.setPenRadius(0.015);
+                StdDraw.point(x1,y1);
+
+            }
 
         }
 
     }
+
+
+
 
 
 

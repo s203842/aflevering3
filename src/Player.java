@@ -1,10 +1,14 @@
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 public class Player {
 
     int x, y, dx = 0, dy = 0, nx, ny, playernumber, turnnumber;
     Color farve = Color.BLACK;
     boolean dead = false;
+    ArrayList<int[]> coordhis = new ArrayList<>();
+
 
     public void setVec(int p) {
 

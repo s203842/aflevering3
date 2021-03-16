@@ -22,7 +22,7 @@ public class RaceTrack {
 
         // noget med guide
 
-        System.out.print("Vil du have have hjælpelinjer y/n? ");
+        System.out.print("Vil du have have hjælpelinjer (y/n)?");
         boolean guideon= "y".equals(input.next());
 
 

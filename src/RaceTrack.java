@@ -14,7 +14,8 @@ public class RaceTrack {
 
         boolean vundet;
 
-        boolean guideon=false;
+
+
 
         int vindeSpiller = 0;
         boolean gamewon=false;
@@ -22,11 +23,18 @@ public class RaceTrack {
         Scanner input = new Scanner(System.in);
         drawmap();
 
+        // noget med guide
+
+        System.out.print("Vil du have have hjælpelinjer y/n? ");
+        boolean guideon= "y".equals(input.next());
+
+
         // get number of players, n
-        int n= 10;
+        int n= getnum(input, "Hvor mange spillere (1-4): ");
         while(n < 1  || n > 4) // limit players to 1-4
         {
-            n = getnum(input);
+            System.out.println("Et tal mellem 1 og 4. ");
+            n = getnum(input, "Hvor mange spillere (1-4): ");
         }
 
          // vi fucker rundt rundt med arrays istedet, vi tænker max 4 spillere.
@@ -44,8 +52,7 @@ public class RaceTrack {
             players[i].coordhis.add(new int[]{players[i].x,players[i].y});
         }
 
-        System.out.print("Do you want a guide (y/n): ");
-        if ("y".equals(input.nextLine())) guideon = true;
+
 
         //vi prøver at bevæge
         while(anyalive(players) && !gamewon)
@@ -74,7 +81,7 @@ public class RaceTrack {
 
                         vindeSpiller = player.playernumber;
 
-                        System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet!");
+                        System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet! Det tog " + player.turnnumber + " ture");
                      break;}
 
                     player.dead = crash(player);
@@ -88,7 +95,8 @@ public class RaceTrack {
         }
         drawmap();
         drawplayers(players);
-        System.out.println("program færdig");
+
+        System.out.println(" \n Spil slut");
 
 
 
@@ -97,25 +105,24 @@ public class RaceTrack {
     }
 
 
-    public static int getnum(Scanner console)
+    public static int getnum(Scanner console,String prompt)
     {
-        System.out.print("Giz æ tal over 0: ");
+        System.out.print(prompt);
         while (!console.hasNextInt())
         {
             console.nextLine();
             System.out.println("a sa æ tal");
-            System.out.print("Giz æ ny tal: ");
+            System.out.print(prompt);
         }
         return console.nextInt();
     }
 
     public static int getdir(Scanner console)
     {
-        System.out.print("Hvilken retning (Brug numpad): ");
         int n;
         while (true)
         {
-            n=getnum(console);
+            n=getnum(console,"Hvilken retning (Brug numpad): ");
             if(0 < n && 10 > n) return n;
             System.out.print("En retning er et tal mellem 1 og 9 (inklusiv), proev igen: ");
         }
@@ -137,10 +144,19 @@ public class RaceTrack {
     public static boolean crash(Player player)
     {
         //if inner square
-        if((player.y >= -(str/2) && player.y <= (str/2)  ) &&  (player.x >= -(str/2) && player.x <= (str/2)  )) return true;
+        if((player.y >= -(str/2) && player.y <= (str/2)  ) &&  (player.x >= -(str/2) && player.x <= (str/2)  ))
+        {
+            System.out.println("Spiller " + player.playernumber + " er kørt galt.");
+            return true;
+
+        }
 
         //if outer square
-        else if((player.y <= -str || player.y >= str ) || (player.x <= -str || player.x >= str)) return true;
+        else if((player.y <= -str || player.y >= str ) || (player.x <= -str || player.x >= str))
+        {
+            System.out.println("Spiller " + player.playernumber + " er kørt galt.");
+            return true;
+        }
 
         else return false;
     }

@@ -132,8 +132,6 @@ public class RaceTrack {
             StdDraw.setPenRadius(0.015);
             StdDraw.point(player.x,player.y);
             player.turnnumber += 1;
-
-        System.out.println(player.turnnumber);
     }
 
     public static boolean crash(Player player)

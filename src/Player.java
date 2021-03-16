@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Player {
 
-    int x, y, dx = 0, dy = 0, nx, ny, playernumber;
+    int x, y, dx = 0, dy = 0, nx, ny, playernumber, turnnumber;
     Color farve = Color.BLACK;
     boolean dead = false;
 
@@ -84,6 +84,16 @@ public class Player {
 
         x = nx;
         y = ny;
+
+    }
+
+    public int[] giveCord() {
+
+        int[] cord = new int[2];
+
+        cord[0] = x; cord[1] = y;
+
+        return cord;
 
     }
 

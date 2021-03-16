@@ -10,6 +10,10 @@ public class RaceTrack {
 
     public static void main(String[] args) {
 
+        boolean vundet;
+
+        int vindeSpiller = 0;
+
         Scanner input = new Scanner(System.in);
 
         drawmap();
@@ -54,12 +58,22 @@ public class RaceTrack {
 
             for (Player player : players)
             {
-                if (!player.dead)
+                if (!player.dead && !playerWon(player))
                 {
                     System.out.println("Det er spiller " + player.playernumber + "'s tur");
                     turn(player, input);
 
+                    vundet = playerWon(player);
+
+                    if (vundet) {
+
+                        System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet!");
+
+                        break; }
+
                     player.dead = crash(player);
+
+
                 }
 
 
@@ -67,6 +81,8 @@ public class RaceTrack {
 
         }
         System.out.println("program færdig");
+
+
 
 
 
@@ -107,6 +123,9 @@ public class RaceTrack {
             player.setPos();
             StdDraw.setPenRadius(0.015);
             StdDraw.point(player.x,player.y);
+            player.turnnumber += 1;
+
+        System.out.println(player.turnnumber);
     }
 
     public static boolean crash(Player player)
@@ -186,6 +205,21 @@ public class RaceTrack {
         StdDraw.setPenRadius(0.015);
 
 
+
+    }
+
+    public static boolean playerWon(Player spiller) {
+
+        if (spiller.giveCord()[0] >= 0 && spiller.dx > 0 && spiller.turnnumber > 10  ) {
+
+            return true;
+
+        }
+
+        else {
+            return false;
+
+        }
 
     }
 

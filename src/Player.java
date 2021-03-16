@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Player {
 
-    int x, y, dx = 0, dy = 0, playernumber, turnnumber;
+    int x, y, dx = 0, dy = 0, nx, ny, playernumber, turnnumber;
     Color farve = Color.BLACK;
     boolean dead = false;
     ArrayList<int[]> coordhis = new ArrayList<>();
@@ -80,6 +80,10 @@ public class Player {
     }
 
     public void setPos() {
+
+        nx = x+dx;
+        ny = y+dy;
+        StdDraw.line(x,y,nx,ny);
 
         x = x + dx;
         y = y + dy;

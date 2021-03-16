@@ -270,10 +270,10 @@ public class RaceTrack {
         StdDraw.setPenColor(Color.YELLOW);
 
         //draw 5
-        StdDraw.setPenRadius(0.015);
+        StdDraw.setPenRadius(0.01);
         StdDraw.point(x0,y0);
         //draw other 8
-        StdDraw.setPenRadius(0.005);
+        StdDraw.setPenRadius(0.003);
         //from player to guide
         StdDraw.line(player.x,player.y,x0,y0);
 

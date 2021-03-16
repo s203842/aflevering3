@@ -14,9 +14,6 @@ public class RaceTrack {
 
         boolean vundet;
 
-
-
-
         int vindeSpiller = 0;
         boolean gamewon=false;
 
@@ -177,13 +174,13 @@ public class RaceTrack {
     public static boolean playerWon(Player spiller)
     {
 
-        if (spiller.giveCord()[0] >= 0 && spiller.dx > 0 && spiller.turnnumber > 10  ) {
-
+        if (spiller.giveCord()[0] >= 0 && spiller.dx > 0 && spiller.turnnumber > 10  )
+        {
             return true;
-
         }
 
-        else {
+        else
+        {
             return false;
 
         }
@@ -242,9 +239,6 @@ public class RaceTrack {
         StdDraw.square(0,0,str/2.0);
 
         StdDraw.setPenRadius(0.015);
-
-
-
     }
 
     public static void drawplayers(Player[] players)
@@ -302,7 +296,6 @@ public class RaceTrack {
             for (int j = -1; j <2 ; j++)
             {
                 StdDraw.line(x0,y0,x0+i,y0+j);
-
             }
 
         }

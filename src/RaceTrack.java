@@ -111,8 +111,6 @@ public class RaceTrack {
 
     public static boolean crash(Player player)
     {
-        System.out.println("kører crash");
-
         //if inner square
         if((player.y >= -(str/2) && player.y <= (str/2)  ) &&  (player.x >= -(str/2) && player.x <= (str/2)  )) return true;
 
@@ -143,18 +141,15 @@ public class RaceTrack {
     {
         StdDraw.setScale(-(str+1),(str+1));
 
-        StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
 
+        // draw grey part of map
+        StdDraw.setPenColor(Color.LIGHT_GRAY);
         StdDraw.filledSquare(0,0,str);
 
-        StdDraw.setPenColor();
 
-        StdDraw.setPenRadius(0.005);
-
-        StdDraw.square(0,0,str);
-
+        //draw gridlines
         StdDraw.setPenRadius();
-
+        StdDraw.setPenColor(Color.DARK_GRAY);
         for (int i = -str; i < str; i ++ ) {
 
             StdDraw.line(i,-str,i,str);
@@ -162,17 +157,36 @@ public class RaceTrack {
 
         }
 
-        StdDraw.setPenColor(StdDraw.WHITE);
+
+        //draw goal line
+        StdDraw.setPenRadius(0.01);
+        StdDraw.setPenColor(Color.ORANGE);
+        StdDraw.line(0,0,0,str);
+
+
+        // draw outer square
+        StdDraw.setPenColor();
+
+        StdDraw.setPenRadius(0.005);
+
+        StdDraw.square(0,0,str);
+
+
+        //fill inner square
+        StdDraw.setPenColor(Color.WHITE);
 
         StdDraw.filledSquare(0,0,str/2.0);
 
         StdDraw.setPenRadius(0.005);
 
-        StdDraw.setPenColor(StdDraw.BLACK);
+        StdDraw.setPenColor(Color.BLACK);
 
         StdDraw.square(0,0,str/2.0);
 
         StdDraw.setPenRadius(0.015);
+
+
+
     }
 
 

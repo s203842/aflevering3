@@ -10,6 +10,8 @@ public class RaceTrack {
 
     public static void main(String[] args) {
 
+        StdDraw.setScale(-(str+1),(str+1));
+
         boolean vundet;
 
         int vindeSpiller = 0;
@@ -34,6 +36,8 @@ public class RaceTrack {
          // vi fucker rundt rundt med arrays istedet, vi tænker max 4 spillere.
         Player[] players = new Player[n];
 
+
+        //initialize each player
         for (int i = 0; n > i ; i++)
         {
             players[i] = new Player();
@@ -59,6 +63,8 @@ public class RaceTrack {
                     player.coordhis.add(new int[]{player.x,player.y});
 
                     System.out.println("Det er spiller " + player.playernumber + "'s tur");
+                    drawguide(player);
+
                     turn(player, input);
 
                     player.coordhis.add(new int[]{player.x,player.y});
@@ -176,7 +182,9 @@ public class RaceTrack {
 
     public static void drawmap()
     {
-        StdDraw.setScale(-(str+1),(str+1));
+        //clear map
+        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.filledSquare(0,0,str+1);
 
 
         // draw grey part of map
@@ -245,6 +253,7 @@ public class RaceTrack {
                 StdDraw.point(x0,y0);
 
                 StdDraw.setPenRadius(0.005);
+
                 StdDraw.line(x0,y0,x1,y1);
 
                 StdDraw.setPenRadius(0.015);
@@ -253,6 +262,37 @@ public class RaceTrack {
             }
 
         }
+
+    }
+
+    public static void drawguide(Player player)
+    {
+        int x0=player.x+player.dx, y0 = player.y+ player.dy;
+
+        StdDraw.setPenColor(Color.YELLOW);
+
+        //draw 5
+        StdDraw.setPenRadius(0.015);
+        StdDraw.point(x0,y0);
+        //draw other 8
+        StdDraw.setPenRadius(0.005);
+        //from player to guide
+        StdDraw.line(player.x,player.y,x0,y0);
+
+
+        //directions
+        StdDraw.line(x0,y0,x0,y0-1);
+        StdDraw.line(x0,y0,x0,y0+1);
+        StdDraw.line(x0,y0,x0-1,y0-1);
+        StdDraw.line(x0,y0,x0-1,y0);
+        StdDraw.line(x0,y0,x0-1,y0+1);
+        StdDraw.line(x0,y0,x0+1,y0-1);
+        StdDraw.line(x0,y0,x0+1,y0);
+        StdDraw.line(x0,y0,x0+1,y0+1);
+
+
+
+
 
     }
 

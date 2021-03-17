@@ -31,6 +31,15 @@ public class RaceTrack {
         wallslist.add(new Line2D.Double(-str2,-str2,-str2,str2));
         wallslist.add(new Line2D.Double(str2,-str2,str2,str2));
 
+        Line2D goalline = new Line2D.Double(0,str2,0,str);
+        Line2D[] checklines = new Line2D[3];
+        checklines[0] = new Line2D.Double(str2,0,str,0);
+        checklines[1] = new Line2D.Double(0,-str2,0,-str);
+        checklines[2] = new Line2D.Double(-str2,0,-str,0);
+
+
+
+
 
         StdDraw.setScale(-(str+1),(str+1));
 
@@ -79,8 +88,6 @@ public class RaceTrack {
 
             for (Player player : players)
             {
-                drawmap();
-                drawplayers(players);
                 if (!player.dead)
                 {
 
@@ -103,6 +110,8 @@ public class RaceTrack {
                         System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet! Det tog " + player.turnnumber + " ture");
                      break;}
 
+                    drawmap();
+                    drawplayers(players);
 
 
                 }

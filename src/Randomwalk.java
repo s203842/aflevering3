@@ -29,7 +29,6 @@ public class Randomwalk
         while(Math.abs(x) < n && Math.abs(y) < n )
         {
             System.out.println("Position = ("+x+","+y+") "); //print location
-
             StdDraw.point(x,y);
 
             //take step
@@ -49,6 +48,7 @@ public class Randomwalk
             }
             cnt++;
         }
+        System.out.println("RandomWalk for n = " + n);
         System.out.println("Walked: " + cnt + " steps.");
 
         System.out.println("Slut: " + dtf.format(LocalDateTime.now()));

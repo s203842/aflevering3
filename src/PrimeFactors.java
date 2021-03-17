@@ -17,12 +17,12 @@ public class PrimeFactors
             System.out.println("The number: " + number + " has the following primefactors: " + goodfactor(number));
         System.out.println( "\n");
 
-     /*   System.out.println("Type 1 for bad factor as well.");
+        System.out.println("Type 1 for bad factor as well.");
         if(1==getnum(consol))
        {
             System.out.println("The number: " + number + " has the following primefactors: " + badfactor(number));
             System.out.println("\n \n \n");
-        }*/
+        }
 
         number = getnum(consol);
         }
@@ -82,7 +82,7 @@ public class PrimeFactors
             long prim = ThreadLocalRandom.current().nextLong(number-2)+2;
             if(number % prim ==0 && isPrime(prim))
             {
-                System.out.println("factor: " + prim);
+               // System.out.println("factor: " + prim);
                 number = number / prim;
                 factors.add(prim);
 
@@ -105,7 +105,8 @@ public class PrimeFactors
 
     public static boolean isPrime(long number)
     {
-         if (number % 2 == 0) return false;
+        if(number == 2) return true;
+        else if (number % 2 == 0) return false;
 
         for (long i = 3;  Math.sqrt(number)+1 > i; i+=2)
         {

@@ -58,8 +58,8 @@ public class PrimeFactors
                 factors.add(prim);
                 sqrtnum1 = Math.sqrt(number)+1;
 
-                //we only want to test if we actually change the number.
-                if(isPrime(number)) break;
+                /*//we only want to test if we actually change the number.
+                if(isPrime(number)) break;*/
             }
             else prim +=2;
         }

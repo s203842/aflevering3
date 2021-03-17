@@ -1,6 +1,8 @@
 import java.awt.*;
+import java.awt.geom.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class RaceTrack {
@@ -9,6 +11,26 @@ public class RaceTrack {
     public static int str=10;
 
     public static void main(String[] args) {
+
+        ArrayList<Line2D> wallslist = new ArrayList<>(); //an arraylist with the walls of our track
+        int str2 = str/2;
+
+        //horizontal outer
+        wallslist.add(new Line2D.Double(-str,str,str,str));
+        wallslist.add(new Line2D.Double(-str,-str,str,-str));
+
+        //vertical outer
+        wallslist.add(new Line2D.Double(-str,-str,-str,str));
+        wallslist.add(new Line2D.Double(str,-str,str,str));
+
+        //horizontal inner
+        wallslist.add(new Line2D.Double(-str2,str2,str2,str2));
+        wallslist.add(new Line2D.Double(-str2,-str2,str2,-str2));
+
+        //vertical inner
+        wallslist.add(new Line2D.Double(-str2,-str2,-str2,str2));
+        wallslist.add(new Line2D.Double(str2,-str2,str2,str2));
+
 
         StdDraw.setScale(-(str+1),(str+1));
 
@@ -67,7 +89,7 @@ public class RaceTrack {
                     System.out.println("Det er spiller " + player.playernumber + "'s tur");
                     if(guideon) drawguide(player);
 
-                    turn(player, input);
+                    turn(player, input,wallslist);
 
                     player.coordhis.add(new int[]{player.x,player.y});
 
@@ -81,7 +103,6 @@ public class RaceTrack {
                         System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet! Det tog " + player.turnnumber + " ture");
                      break;}
 
-                    player.dead = crash(player);
 
 
                 }
@@ -125,12 +146,16 @@ public class RaceTrack {
         }
     }
 
-    public static void turn(Player player, Scanner console)
+    public static void turn(Player player, Scanner console,ArrayList<Line2D> walls)
     {
         System.out.println("kører tur for spiller: " + player.playernumber);
-
-            StdDraw.setPenColor(player.farve);
             player.setVec(getdir(console));
+
+            player.dead = crash(player,walls);
+
+
+
+        StdDraw.setPenColor(player.farve);
             StdDraw.setPenRadius(0.005);
             player.setPos();
             StdDraw.setPenRadius(0.015);
@@ -138,8 +163,40 @@ public class RaceTrack {
             player.turnnumber += 1;
     }
 
-    public static boolean crash(Player player)
+    public static boolean crash(Player player,  ArrayList<Line2D> walls)
     {
+        Line2D drive = new Line2D.Double(player.x,player.y,player.x+player.dx,player.y+player.dy);
+        AtomicBoolean crash = new AtomicBoolean(false);
+
+
+        /*for (Line2D wall:walls)
+        {
+            if(drive.intersectsLine(wall))
+            {
+                System.out.println("Spiller " + player.playernumber + " er kørt galt.");
+
+                return true;
+            }
+        }
+        return false;*/
+
+
+
+        //We multithrading bois
+        walls.forEach((wall) ->
+        {
+            if(drive.intersectsLine(wall))
+            {
+                if(!crash.get())
+                {
+                    System.out.println("Spiller " + player.playernumber + " er kørt galt.");
+                }
+                crash.set(true);
+            }
+        });
+        return crash.get();
+
+            /*
         //if inner square
         if((player.y >= -(str/2) && player.y <= (str/2)  ) &&  (player.x >= -(str/2) && player.x <= (str/2)  ))
         {
@@ -156,6 +213,8 @@ public class RaceTrack {
         }
 
         else return false;
+        */
+
     }
 
 

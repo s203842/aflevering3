@@ -3,7 +3,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import java.util.concurrent.ThreadLocalRandom;
 
-
 public class PrimeFactors
 {
 
@@ -33,12 +32,13 @@ public class PrimeFactors
 
     public static String goodfactor(long number)
     {
-        long prim = 2;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         long then = System.currentTimeMillis();
         System.out.println("Start: "+ dtf.format(LocalDateTime.now()));
+
         ArrayList<Long> factors = new ArrayList<>();
         System.out.println("Prime factorisation of: " + number);
+        long prim = 2;
 
         while( number % prim ==0)
         {
@@ -58,8 +58,6 @@ public class PrimeFactors
                 factors.add(prim);
                 sqrtnum1 = Math.sqrt(number)+1;
 
-                /*//we only want to test if we actually change the number.
-                if(isPrime(number)) break;*/
             }
             else prim +=2;
         }

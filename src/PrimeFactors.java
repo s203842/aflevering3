@@ -17,12 +17,12 @@ public class PrimeFactors
             System.out.println("The number: " + number + " has the following primefactors: " + goodfactor(number));
         System.out.println( "\n");
 
-        System.out.println("Type 1 for bad factor as well.");
+        /*System.out.println("Type 1 for bad factor as well.");
         if(1==getnum(consol))
        {
             System.out.println("The number: " + number + " has the following primefactors: " + badfactor(number));
             System.out.println("\n \n \n");
-        }
+        }*/
 
         number = getnum(consol);
         }
@@ -47,13 +47,16 @@ public class PrimeFactors
         }
         prim++;
 
-        while(Math.sqrt(number)+1 > prim )
+        double sqrtnum1 = Math.sqrt(number)+1;
+
+        while(sqrtnum1 > prim )
         {
             if(number % prim ==0)
             {
                //System.out.println("factor: " + prim);
                 number = number / prim;
                 factors.add(prim);
+                sqrtnum1 = Math.sqrt(number)+1;
 
                 //we only want to test if we actually change the number.
                 if(isPrime(number)) break;

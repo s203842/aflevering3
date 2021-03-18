@@ -47,16 +47,16 @@ public class PrimeFactors
         }
         prim++;
 
-        double sqrtnum1 = Math.sqrt(number)+1;
+        double sqrtnum1 = Math.sqrt(number);
 
-        while(sqrtnum1 > prim )
+        while(sqrtnum1 >= prim )
         {
             if(number % prim ==0)
             {
                //System.out.println("factor: " + prim);
                 number = number / prim;
                 factors.add(prim);
-                sqrtnum1 = Math.sqrt(number)+1;
+                sqrtnum1 = Math.sqrt(number);
 
             }
             else prim +=2;

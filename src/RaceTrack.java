@@ -13,6 +13,8 @@ public class RaceTrack {
 
     public static void main(String[] args) {
 
+        StdDraw.setScale(-(str+1),(str+1));
+
         ArrayList<Line2D> wallslist = new ArrayList<>(); //an arraylist with the walls of our track
 
         //horizontal outer
@@ -38,11 +40,6 @@ public class RaceTrack {
         checklines[2] = new Line2D.Double(-str2,0,-str,0);
         checklines[3] = new Line2D.Double(0,str2,0,str);
 
-
-
-
-
-        StdDraw.setScale(-(str+1),(str+1));
 
         boolean vundet;
 
@@ -72,7 +69,6 @@ public class RaceTrack {
          // vi fucker rundt rundt med arrays istedet, vi tænker max 4 spillere.
         Player[] players = new Player[n];
 
-
         //initialize each player
         for (int i = 0; n > i ; i++)
         {
@@ -84,8 +80,6 @@ public class RaceTrack {
             players[i].coordhis.add(new int[]{players[i].x,players[i].y});
         }
 
-
-
         //vi prøver at bevæge
         while(anyplaying(players))
         {
@@ -96,7 +90,6 @@ public class RaceTrack {
                 {
                     if (!player.dead)
                     {
-
                         player.coordhis.add(new int[]{player.x,player.y});
 
                         System.out.println("Det er spiller " + player.playernumber + "'s tur");
@@ -121,24 +114,17 @@ public class RaceTrack {
 
                         drawmap();
                         drawplayers(players);
-
-
                     }
                     else if(jesus)
                     {
                         revive(player);
                         player.turnnumber++;
-
                     }
-
-
-
                 }
-
-
             }
-
         }
+
+
         drawmap();
         drawplayers(players);
         System.out.println(" \n Spil slut");
@@ -158,11 +144,6 @@ public class RaceTrack {
             System.out.println("Den hurtigste spiller var Spiller " + kvik + " med " + kviktur + " ture!");
         }
 
-
-
-
-
-
     }
 
 
@@ -178,6 +159,7 @@ public class RaceTrack {
         return console.nextInt();
     }
 
+
     public static int getdir(Scanner console)
     {
         int n;
@@ -188,6 +170,7 @@ public class RaceTrack {
             System.out.print("En retning er et tal mellem 1 og 9 (inklusiv), proev igen: ");
         }
     }
+
 
     public static void turn(Player player, Scanner console,ArrayList<Line2D> walls,Line2D[] checklines)
     {
@@ -208,6 +191,7 @@ public class RaceTrack {
         StdDraw.setPenRadius(0.015);
         StdDraw.point(player.x,player.y);
     }
+
 
     public static boolean crash(Player player,  ArrayList<Line2D> walls, Line2D drive)
     {
@@ -259,6 +243,7 @@ public class RaceTrack {
 
     }
 
+
     public static boolean anyplaying(Player[] players)
     {
         for (Player player: players)
@@ -268,6 +253,7 @@ public class RaceTrack {
         }
         return false;
     }
+
 
     public static boolean anyalive(Player[] players)
     {
@@ -279,16 +265,17 @@ public class RaceTrack {
 
     }
 
+
     public static boolean playerWon(Player spiller)
     {
         if (spiller.giveCord()[0] >= 0 && spiller.dx > 0 && spiller.turnnumber > 10) return true;
         else return false;
     }
 
+
     public static void revive(Player player)
     {
         int x=0,y=str2+player.playernumber;
-
         switch (player.checkpoint)
         {
             case 1 ->
@@ -296,18 +283,14 @@ public class RaceTrack {
                 x = y;
                 y = 0;
             }
-
             case 2 -> y = -y;
-
             case 3 ->
             {
                 x = -y;
                 y = 0;
             }
         }
-
         player.revive(x,y,0,0);
-
     }
 
     public static void checkpoint(Player player, Line2D drive, Line2D[] lines)

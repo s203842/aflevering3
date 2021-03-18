@@ -85,7 +85,6 @@ public class Player {
         this.dx = dx;
         this.dy = dy;
         this.dead=false;
-
     }
 
     public void setPos() {

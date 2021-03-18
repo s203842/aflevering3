@@ -141,8 +141,23 @@ public class RaceTrack {
         }
         drawmap();
         drawplayers(players);
-
         System.out.println(" \n Spil slut");
+
+        int kvik=1,kviktur= Integer.MAX_VALUE;
+        if(jesus)
+        {
+            for (Player player :players)
+            {
+                System.out.println("Det tog Spiller " + player.playernumber + " " +player.turnnumber + " ture at gennemfoere banen!");
+                if(player.turnnumber < kviktur)
+                {
+                    kvik = player.playernumber;
+                    kviktur = player.turnnumber;
+                }
+            }
+            System.out.println("Den hurtigste spiller var Spiller " + kvik + " med " + kviktur + " ture!");
+        }
+
 
 
 
@@ -312,7 +327,7 @@ public class RaceTrack {
     //draw stuff
 
 
-    //ændrer drawmap til at tegne linjer istedet? siden det gør det mere modulært?
+    //ændrer drawmap til at tegne linjer istedet?
     public static void drawmap()
     {
         //clear map

@@ -80,6 +80,8 @@ public class RaceTrack {
             players[i].coordhis.add(new int[]{players[i].x,players[i].y});
         }
 
+        drawplayers(players);
+
         //vi prøver at bevæge
         while(anyplaying(players))
         {

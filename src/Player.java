@@ -4,9 +4,9 @@ import java.util.List;
 
 public class Player {
 
-    int x, y, dx = 0, dy = 0, nx, ny, playernumber, turnnumber;
+    int x, y, dx = 0, dy = 0, nx, ny, playernumber, turnnumber, checkpoint=0;
     Color farve = Color.BLACK;
-    boolean dead = false;
+    boolean dead = false, playing = true;
     ArrayList<int[]> coordhis = new ArrayList<>();
 
 
@@ -76,6 +76,15 @@ public class Player {
 
         this.x = x;
         this.y = y;
+
+    }
+
+    public void revive(int x,int y, int dx,int dy) {
+        this.x = x;
+        this.y = y;
+        this.dx = dx;
+        this.dy = dy;
+        this.dead=false;
 
     }
 

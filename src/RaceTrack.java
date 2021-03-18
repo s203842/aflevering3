@@ -9,11 +9,11 @@ public class RaceTrack {
 
 
     public static int str=10;
+    public static int str2 = str/2;
 
     public static void main(String[] args) {
 
         ArrayList<Line2D> wallslist = new ArrayList<>(); //an arraylist with the walls of our track
-        int str2 = str/2;
 
         //horizontal outer
         wallslist.add(new Line2D.Double(-str,str,str,str));
@@ -31,11 +31,12 @@ public class RaceTrack {
         wallslist.add(new Line2D.Double(-str2,-str2,-str2,str2));
         wallslist.add(new Line2D.Double(str2,-str2,str2,str2));
 
-        Line2D goalline = new Line2D.Double(0,str2,0,str);
-        Line2D[] checklines = new Line2D[3];
+        // final checkline is the goalpost
+        Line2D[] checklines = new Line2D[4];
         checklines[0] = new Line2D.Double(str2,0,str,0);
         checklines[1] = new Line2D.Double(0,-str2,0,-str);
         checklines[2] = new Line2D.Double(-str2,0,-str,0);
+        checklines[3] = new Line2D.Double(0,str2,0,str);
 
 
 
@@ -53,9 +54,12 @@ public class RaceTrack {
 
         // noget med guide
 
-        System.out.print("Vil du have have hjælpelinjer (y/n)?");
+        System.out.print("Vil du have have hjælpelinjer (y/n) ");
         boolean guideon= "y".equals(input.next());
+        input.nextLine();
 
+        System.out.print("genopliv (y/n) ");
+        boolean jesus = "y".equals(input.next());
 
         // get number of players, n
         int n= getnum(input, "Hvor mange spillere (1-4): ");
@@ -83,35 +87,50 @@ public class RaceTrack {
 
 
         //vi prøver at bevæge
-        while(anyalive(players) && !gamewon)
+        while(anyplaying(players))
         {
 
             for (Player player : players)
             {
-                if (!player.dead)
+                if(player.playing)
                 {
-
-                    player.coordhis.add(new int[]{player.x,player.y});
-
-                    System.out.println("Det er spiller " + player.playernumber + "'s tur");
-                    if(guideon) drawguide(player);
-
-                    turn(player, input,wallslist);
-
-                    player.coordhis.add(new int[]{player.x,player.y});
-
-                    gamewon = playerWon(player);
-
-                    if (gamewon)
+                    if (!player.dead)
                     {
 
-                        vindeSpiller = player.playernumber;
+                        player.coordhis.add(new int[]{player.x,player.y});
 
-                        System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet! Det tog " + player.turnnumber + " ture");
-                     break;}
+                        System.out.println("Det er spiller " + player.playernumber + "'s tur");
+                        if(guideon) drawguide(player);
 
-                    drawmap();
-                    drawplayers(players);
+                        turn(player, input,wallslist,checklines);
+
+                        player.coordhis.add(new int[]{player.x,player.y});
+
+                        if(!jesus && player.dead) player.playing=false;
+
+                        //gamewon = playerWon(player);
+
+                       /* if (gamewon)
+                        {
+
+                            vindeSpiller = player.playernumber;
+
+                           System.out.println("Tilykke til spiller nr. " + vindeSpiller + " for at have vundet spillet! Det tog " + player.turnnumber + " ture");
+                        break;
+                        }*/
+
+                        drawmap();
+                        drawplayers(players);
+
+
+                    }
+                    else if(jesus)
+                    {
+                        revive(player);
+                        player.turnnumber++;
+
+                    }
+
 
 
                 }
@@ -155,41 +174,29 @@ public class RaceTrack {
         }
     }
 
-    public static void turn(Player player, Scanner console,ArrayList<Line2D> walls)
+    public static void turn(Player player, Scanner console,ArrayList<Line2D> walls,Line2D[] checklines)
     {
         System.out.println("kører tur for spiller: " + player.playernumber);
-            player.setVec(getdir(console));
 
-            player.dead = crash(player,walls);
+        player.setVec(getdir(console));
+        Line2D drive = new Line2D.Double(player.x,player.y,player.x+player.dx,player.y+player.dy);
 
+        player.turnnumber++;
+
+        player.dead = crash(player,walls,drive);
+        checkpoint(player,drive,checklines);
 
 
         StdDraw.setPenColor(player.farve);
-            StdDraw.setPenRadius(0.005);
-            player.setPos();
-            StdDraw.setPenRadius(0.015);
-            StdDraw.point(player.x,player.y);
-            player.turnnumber += 1;
+        StdDraw.setPenRadius(0.005);
+        player.setPos();
+        StdDraw.setPenRadius(0.015);
+        StdDraw.point(player.x,player.y);
     }
 
-    public static boolean crash(Player player,  ArrayList<Line2D> walls)
+    public static boolean crash(Player player,  ArrayList<Line2D> walls, Line2D drive)
     {
-        Line2D drive = new Line2D.Double(player.x,player.y,player.x+player.dx,player.y+player.dy);
         AtomicBoolean crash = new AtomicBoolean(false);
-
-
-        /*for (Line2D wall:walls)
-        {
-            if(drive.intersectsLine(wall))
-            {
-                System.out.println("Spiller " + player.playernumber + " er kørt galt.");
-
-                return true;
-            }
-        }
-        return false;*/
-
-
 
         //We multithrading bois
         walls.forEach((wall) ->
@@ -204,6 +211,17 @@ public class RaceTrack {
             }
         });
         return crash.get();
+
+        /* for (Line2D wall:walls)
+        {
+            if(drive.intersectsLine(wall))
+            {
+                System.out.println("Spiller " + player.playernumber + " er kørt galt.");
+
+                return true;
+            }
+        }
+        return false; */
 
             /*
         //if inner square
@@ -226,39 +244,75 @@ public class RaceTrack {
 
     }
 
+    public static boolean anyplaying(Player[] players)
+    {
+        for (Player player: players)
+        {
+            if(player.playing) return true;
+
+        }
+        return false;
+    }
 
     public static boolean anyalive(Player[] players)
     {
         for (Player player: players)
         {
             if(!player.dead) return true;
-
         }
-
         return false;
 
     }
 
     public static boolean playerWon(Player spiller)
     {
+        if (spiller.giveCord()[0] >= 0 && spiller.dx > 0 && spiller.turnnumber > 10) return true;
+        else return false;
+    }
 
-        if (spiller.giveCord()[0] >= 0 && spiller.dx > 0 && spiller.turnnumber > 10  )
+    public static void revive(Player player)
+    {
+        int x=0,y=str2+player.playernumber;
+
+        switch (player.checkpoint)
         {
-            return true;
+            case 1 ->
+            {
+                x = y;
+                y = 0;
+            }
+
+            case 2 -> y = -y;
+
+            case 3 ->
+            {
+                x = -y;
+                y = 0;
+            }
         }
 
-        else
-        {
-            return false;
+        player.revive(x,y,0,0);
 
-        }
+    }
 
+    public static void checkpoint(Player player, Line2D drive, Line2D[] lines)
+    {
+        /*if(lines.length-1 == player.checkpoint && drive.intersectsLine(lines[player.checkpoint])) player.playing = false;*/
+
+         if(drive.intersectsLine(lines[player.checkpoint])) player.checkpoint++;
+         if(player.checkpoint==lines.length)
+         {
+             player.playing = false;
+             System.out.println("Spiller " + player.playernumber + " har koert en runde paa " + player.turnnumber + " ture!");
+         }
     }
 
 
 
     //draw stuff
 
+
+    //ændrer drawmap til at tegne linjer istedet? siden det gør det mere modulært?
     public static void drawmap()
     {
         //clear map
